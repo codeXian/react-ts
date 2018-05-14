@@ -1,6 +1,7 @@
 const tsImportPluginFactory = require('ts-import-plugin')
 const {
-  getLoader
+  getLoader,
+  injectBabelPlugin
 } = require("react-app-rewired");
 const rewireLess = require('react-app-rewire-less');
 
@@ -28,6 +29,8 @@ module.exports = function override(config, env) {
       "@primary-color": "#1DA57A"
     },
   })(config, env);
+
+  config = injectBabelPlugin("syntax-dynamic-import", config);
 
   return config;
 }

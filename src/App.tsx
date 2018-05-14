@@ -1,14 +1,32 @@
-// import { Button } from 'antd';
+// import createHistory from 'history/createBrowserHistory';
 import * as React from 'react';
-import './App.css';
-import Hello from './components/Hello';
+import * as Loadable from 'react-loadable';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import './App.less';
+import Loading from './components/Loading';
 
-class App extends React.Component {
+const LoadableBasicLayout = Loadable({
+  loader: () => import('./routes/BasicLayout'),
+  loading: Loading,
+});
+
+const LoadableIndexPage = Loadable({
+  loader: () => import('./routes/IndexPage'),
+  loading: Loading,
+});
+
+class App extends React.PureComponent {
   public render() {
     return (
       <div className="App">
-        {/* <Button type="primary" >Button</Button> */}
-        <Hello name="TypeScript" />
+        {
+          <BrowserRouter>
+            <Switch>
+              <Route exact={true} path="/" component={LoadableBasicLayout} />
+              <Route path="/index" component={LoadableIndexPage} />
+            </Switch>
+          </BrowserRouter>
+        }
       </div>
     );
   }
